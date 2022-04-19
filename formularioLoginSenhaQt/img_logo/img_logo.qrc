@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>logoLigado.jpg</file>
+    </qresource>
+</RCC>

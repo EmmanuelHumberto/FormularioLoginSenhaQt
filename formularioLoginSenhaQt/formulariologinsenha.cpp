@@ -22,9 +22,15 @@ void FormularioLoginSenha::on_btn_logar_clicked()
 {
     if(ui -> linha_usuario -> text() == "emmanuel@ligado.com.br" && ui -> linha_senha -> text() == "1234" )
     {
-        ui -> statusbar->setStyleSheet("color: #ccff33");
-        ui -> statusbar-> showMessage( " Logado com Ssucesso ");
+        if( ui -> chk -> isChecked() )
+        {
+            ui -> statusbar-> showMessage( "Manter logado");
+            ui -> statusbar->setStyleSheet("color: #bbee99");
+        }else{
 
+            ui -> statusbar-> showMessage( " CheckBox não marcado e logado com sucesso! ");
+            ui -> statusbar->setStyleSheet("color: #bbee99");
+        }
 
     }else{
         ui -> statusbar->setStyleSheet("color: red");
@@ -32,3 +38,18 @@ void FormularioLoginSenha::on_btn_logar_clicked()
     }
 }
 
+
+void FormularioLoginSenha::on_chk_stateChanged(int arg1)
+{
+    if( arg1 > 0)
+    {
+        ui -> statusbar-> showMessage( "CheckBox marcado!");
+        ui -> statusbar->setStyleSheet("color: #bbee99");
+    }else{
+
+        ui -> statusbar-> showMessage( " CheckBox não marcado!");
+        ui -> statusbar->setStyleSheet("color: #bbee99");
+
+}
+
+}

@@ -18,6 +18,8 @@ public:
 private slots:
     void on_btn_logar_clicked();
 
+    void on_chk_stateChanged(int arg1);
+
 private:
     Ui::FormularioLoginSenha *ui;
 };

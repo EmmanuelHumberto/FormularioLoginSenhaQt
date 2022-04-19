@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../formularioLoginSenhaQt/main.cpp \
-		../formularioLoginSenhaQt/formulariologinsenha.cpp moc_formulariologinsenha.cpp
+		../formularioLoginSenhaQt/formulariologinsenha.cpp qrc_img_logo.cpp \
+		moc_formulariologinsenha.cpp
 OBJECTS       = main.o \
 		formulariologinsenha.o \
+		qrc_img_logo.o \
 		moc_formulariologinsenha.o
 DIST          = ../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.15.2/gcc_64/mkspecs/common/unix.conf \
@@ -492,7 +494,8 @@ Makefile: ../formularioLoginSenhaQt/formularioLoginSenhaQt.pro ../../Qt/5.15.2/g
 		../../Qt/5.15.2/gcc_64/mkspecs/features/exceptions.prf \
 		../../Qt/5.15.2/gcc_64/mkspecs/features/yacc.prf \
 		../../Qt/5.15.2/gcc_64/mkspecs/features/lex.prf \
-		../formularioLoginSenhaQt/formularioLoginSenhaQt.pro
+		../formularioLoginSenhaQt/formularioLoginSenhaQt.pro \
+		../formularioLoginSenhaQt/img_logo/img_logo.qrc
 	$(QMAKE) -o Makefile ../formularioLoginSenhaQt/formularioLoginSenhaQt.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 ../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf:
 ../../Qt/5.15.2/gcc_64/mkspecs/common/unix.conf:
@@ -706,6 +709,7 @@ Makefile: ../formularioLoginSenhaQt/formularioLoginSenhaQt.pro ../../Qt/5.15.2/g
 ../../Qt/5.15.2/gcc_64/mkspecs/features/yacc.prf:
 ../../Qt/5.15.2/gcc_64/mkspecs/features/lex.prf:
 ../formularioLoginSenhaQt/formularioLoginSenhaQt.pro:
+../formularioLoginSenhaQt/img_logo/img_logo.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../formularioLoginSenhaQt/formularioLoginSenhaQt.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 
@@ -720,6 +724,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../formularioLoginSenhaQt/img_logo/img_logo.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../formularioLoginSenhaQt/formulariologinsenha.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../formularioLoginSenhaQt/main.cpp ../formularioLoginSenhaQt/formulariologinsenha.cpp $(DISTDIR)/
@@ -747,8 +752,14 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_img_logo.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_img_logo.cpp
+qrc_img_logo.cpp: ../formularioLoginSenhaQt/img_logo/img_logo.qrc \
+		../../Qt/5.15.2/gcc_64/bin/rcc \
+		../formularioLoginSenhaQt/img_logo/logoLigado.jpg
+	/home/ss/Qt/5.15.2/gcc_64/bin/rcc -name img_logo ../formularioLoginSenhaQt/img_logo/img_logo.qrc -o qrc_img_logo.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -886,7 +897,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -1122,6 +1133,9 @@ formulariologinsenha.o: ../formularioLoginSenhaQt/formulariologinsenha.cpp ../fo
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../Qt/5.15.2/gcc_64/include/QtGui/qguiapplication.h \
 		../../Qt/5.15.2/gcc_64/include/QtGui/qinputmethod.h \
+		../../Qt/5.15.2/gcc_64/include/QtWidgets/QCheckBox \
+		../../Qt/5.15.2/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../Qt/5.15.2/gcc_64/include/QtWidgets/qabstractbutton.h \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/QHBoxLayout \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/qboxlayout.h \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/qlayout.h \
@@ -1143,7 +1157,6 @@ formulariologinsenha.o: ../formularioLoginSenhaQt/formulariologinsenha.cpp ../fo
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/qactiongroup.h \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/QPushButton \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.15.2/gcc_64/include/QtWidgets/qabstractbutton.h \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/QSpacerItem \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/QStatusBar \
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/qstatusbar.h \
@@ -1151,6 +1164,9 @@ formulariologinsenha.o: ../formularioLoginSenhaQt/formulariologinsenha.cpp ../fo
 		../../Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.15.2/gcc_64/include/QtGui/QPixmap
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o formulariologinsenha.o ../formularioLoginSenhaQt/formulariologinsenha.cpp
+
+qrc_img_logo.o: qrc_img_logo.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_img_logo.o qrc_img_logo.cpp
 
 moc_formulariologinsenha.o: moc_formulariologinsenha.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_formulariologinsenha.o moc_formulariologinsenha.cpp
