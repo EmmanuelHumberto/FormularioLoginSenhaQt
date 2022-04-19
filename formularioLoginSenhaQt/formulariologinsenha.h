@@ -15,6 +15,9 @@ public:
     FormularioLoginSenha(QWidget *parent = nullptr);
     ~FormularioLoginSenha();
 
+private slots:
+    void on_btn_logar_clicked();
+
 private:
     Ui::FormularioLoginSenha *ui;
 };
